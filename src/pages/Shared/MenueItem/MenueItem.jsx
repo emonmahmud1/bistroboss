@@ -1,11 +1,13 @@
+
 const MenueItem = ({ item }) => {
-  console.log(item.name);
   const { name, image, price, recipe } = item;
   return (
     <div className="flex gap-4">
-      <img className="w-28 h-24 rounded-tr-[200px] rounded-br-[200px] rounded-bl-[200px]" src={image} alt="" />
-
-
+      <img
+        className="w-28 h-24 rounded-tr-[200px] rounded-br-[200px] rounded-bl-[200px]"
+        src={image}
+        alt=""
+      />
       <div className="w-full">
         <div className="flex justify-between">
           <h3 className="text-xl uppercase">{name} -----------</h3>
@@ -13,8 +15,6 @@ const MenueItem = ({ item }) => {
         </div>
         <p className="text-[#737373] mt-2 max-w-[400px]">{recipe}</p>
       </div>
-
-
     </div>
   );
 };
