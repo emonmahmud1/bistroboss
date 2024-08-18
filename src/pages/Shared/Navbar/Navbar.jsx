@@ -1,30 +1,52 @@
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
+  const [scrollPosition, setScrollPosition] = useState(0);
+
+  const handleScroll = () => {
+    const position = window.scrollY;
+    setScrollPosition(position);
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   const navOptions = (
     <>
-      
       <li>
-        <NavLink to='/'>home</NavLink>
+        <NavLink to="/">home</NavLink>
       </li>
       <li>
-        <NavLink to='/contactus'>contact us</NavLink>
+        <NavLink to="/contactus">contact us</NavLink>
       </li>
       <li>
-        <NavLink to='/dashboard'>dashboard</NavLink>
+        <NavLink to="/dashboard">dashboard</NavLink>
       </li>
       <li>
-        <NavLink to='/menu'>our menu</NavLink>
+        <NavLink to="/menu">our menu</NavLink>
       </li>
       <li>
-        <NavLink to='/order'>our shop</NavLink>
+        <NavLink to="/order/salad">our shop</NavLink>
       </li>
-     
+      <li>
+        <NavLink to="/login">login</NavLink>
+      </li>
     </>
   );
 
   return (
-    <div className="navbar fixed z-10 bg-opacity-30 text-white max-w-screen-xl bg-base-100">
+    // <div className="navbar fixed z-10 bg-opacity-30 text-white max-w-screen-xl bg-base-100">
+    <div
+      className={`navbar fixed z-10 text-white max-w-screen-xl transition-all duration-300 ${
+        scrollPosition > 50
+          ? "bg-opacity-100 bg-[#D99904]"
+          : "bg-opacity-30 bg-base-100"
+      }`}
+    >
       <div className="navbar-start">
         <div className="dropdown">
           <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">

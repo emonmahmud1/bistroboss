@@ -1,11 +1,11 @@
 const MenuCard = ({ item }) => {
   const { name, recipe, image, category, price } = item;
-  console.log(item);
   return (
-    <div className="card card-compact bg-base-100 w-full shadow-sm hover:shadow-lg h-full">
+    <div className="card relative card-compact bg-base-100 w-full shadow-sm hover:shadow-lg h-full">
       <figure>
         <img className="w-full" src={image} alt={name} />
       </figure>
+      <p className="absolute right-3 text-white bg-[#111827] p-1 m-2 rounded-md">${price}</p>
       <div className="card-body bg-[#F3F3F3]">
         <h2 className="text-xl font-semibold text-center">{name}</h2>
         <p className="text-[#737373]">

@@ -9,6 +9,7 @@ import soupImg from "../../../assets/menu/soup-bg.jpg";
 import saladImg from "../../../assets/menu/salad-bg.jpg";
 import Title from "./../../Shared/Title/Title";
 import Button from "./../../../components/Button/Button";
+import MenuCategory from "./../MenuCategory/MenuCategory";
 
 const Menu = () => {
   const [menuData] = useMenu();
@@ -27,92 +28,47 @@ const Menu = () => {
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi."
       />
-      <div>
-        <Title title="Today's offer" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
-          {offered?.map((item) => (
-            <MenueItem key={item._id} item={item} />
-          ))}
-        </div>
-        <div className="text-center">
-          <Button btnTitle="order your fevorite food" />
-        </div>
-      </div>
+
+      {/* todays offer */}
+      <Title title="Today's offer" />
+      <MenuCategory items={offered} />
       {/* dessert */}
-      <div className="mt-14 mb-14">
-        <Cover
-          coverImg={dessertImg}
-          titleText="Dessert"
-          secondaryText="Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
+      <MenuCategory
+        title="dessert"
+        titleSecondText="Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi."
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
-          {desserts?.map((item) => (
-            <MenueItem key={item._id} item={item} />
-          ))}
-        </div>
-        <div className="text-center ">
-          <Button btnTitle="order your fevorite food" />
-        </div>
-      </div>
+        img={dessertImg}
+        items={desserts}
+      />
       {/* pizza */}
-      <div className="mt-14 mb-14">
-        <Cover
-          coverImg={pizzaImg}
-          titleText="pizza"
-          secondaryText="Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
+      <MenuCategory
+        title="pizza"
+        titleSecondText="Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi."
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
-          {pizza?.map((item) => (
-            <MenueItem key={item._id} item={item} />
-          ))}
-        </div>
-        <div className="text-center ">
-          <Button btnTitle="order your fevorite food" />
-        </div>
-      </div>
+        img={pizzaImg}
+        items={pizza}
+      />
 
       {/* soups */}
-      <div className="mt-14 mb-14">
-        <Cover
-          coverImg={soupImg}
-          titleText="soups"
-          secondaryText="Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
+      <MenuCategory
+        title="soup"
+        titleSecondText="Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi."
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
-          {soup?.map((item) => (
-            <MenueItem key={item._id} item={item} />
-          ))}
-        </div>
-        <div className="text-center ">
-          <Button btnTitle="order your fevorite food" />
-        </div>
-      </div>
+        img={soupImg}
+        items={soup}
+      />
       {/* salads */}
-      <div className="mt-14 mb-14">
-        <Cover
-          coverImg={saladImg}
-          titleText="salad"
-          secondaryText="Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
+      <MenuCategory
+        title="salad"
+        titleSecondText="Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
             excepturi exercitationem quasi. In deleniti eaque aut repudiandae et
             a id nisi."
-        />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-10">
-          {salad?.map((item) => (
-            <MenueItem key={item._id} item={item} />
-          ))}
-        </div>
-        <div className="text-center ">
-          <Button btnTitle="order your fevorite food" />
-        </div>
-      </div>
-
-
+        img={saladImg}
+        items={salad}
+      />
     </div>
   );
 };
