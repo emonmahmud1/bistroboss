@@ -28,7 +28,7 @@ const Input = ({
           {...register}
           // register
           className='input input-bordered w-full'
-          required
+          
         />
         {type === "password" &&
           (showHide ? (
