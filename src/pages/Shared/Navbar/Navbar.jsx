@@ -1,8 +1,27 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import { AuthContext } from "../../../contextProvider/AuthProvider";
+import toast from "react-hot-toast";
+import { BsCart4 } from "react-icons/bs";
+import useCart from "../../../hooks/useCart";
 
 const Navbar = () => {
+  const { logout, user } = useContext(AuthContext);
+  const [cart]= useCart()
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const handleDropDown = () => {
+    setShowDropdown(!showDropdown);
+  };
+  const logoutUser = () => {
+    logout()
+      .then(() => {
+        toast.success("User logged out");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   const handleScroll = () => {
     const position = window.scrollY;
@@ -15,7 +34,8 @@ const Navbar = () => {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-  const navOptions = (
+
+ const navOptions = (
     <>
       <li>
         <NavLink to="/">home</NavLink>
@@ -32,9 +52,20 @@ const Navbar = () => {
       <li>
         <NavLink to="/order/salad">our shop</NavLink>
       </li>
-      <li>
-        <NavLink to="/login">login</NavLink>
-      </li>
+
+      {user ? (
+        <></>
+      ) : (
+        <li>
+          {" "}
+          <NavLink
+            to="/login"
+            className="border text-green-200 border-green-200"
+          >
+            login
+          </NavLink>{" "}
+        </li>
+      )}
     </>
   );
 
@@ -49,7 +80,12 @@ const Navbar = () => {
     >
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div
+            onClick={handleDropDown}
+            tabIndex={0}
+            role="button"
+            className="btn btn-ghost lg:hidden"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -65,20 +101,33 @@ const Navbar = () => {
               />
             </svg>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow mx-3"
-          >
-            {navOptions}
-          </ul>
+          {showDropdown && (
+            <ul
+              tabIndex={0}
+              className="menu menu-sm uppercase dropdown-content rounded-box z-[1] mt-3 w-52 p-2 bg-slate-500 shadow mx-3"
+            >
+              {navOptions}
+            </ul>
+          )}
         </div>
         <a className="btn btn-ghost text-xl">BISTRO BOSS</a>
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal uppercase mx-3">{navOptions}</ul>
       </div>
-      <div className="navbar-end">
-        <a className="btn">Button</a>
+      <div className="navbar-end gap-4">
+        <NavLink to='/dashboard/cart' className="btn">
+        <BsCart4 className="text-green-700 text-xl"/>
+          <div className="badge badge-success">{cart?.length}</div>
+        </NavLink>
+        {user && (
+          <button
+            onClick={logoutUser}
+            className="btn btn-ghost btn-outline text-red-300"
+          >
+            logout
+          </button>
+        )}
       </div>
     </div>
   );

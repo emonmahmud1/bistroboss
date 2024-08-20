@@ -4,27 +4,32 @@ import loginImg from "../../assets/others/authentication1.png";
 import Input from "./../../components/Input/Input";
 import { useContext } from "react";
 import { AuthContext } from "../../contextProvider/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { validationForm } from "../../utilities/validation";
 import toast from "react-hot-toast";
 const SignUp = () => {
   const { createUser } = useContext(AuthContext);
+  const navigate =useNavigate()
   const {
     register,
     handleSubmit,
     reset,
     setError,
     clearErrors,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
-  const onSubmit = (data) => {
+
+  const onSubmit = async (data) => {
     const email = data.email;
     const password = data.password;
-    createUser(email, password).then((result) => {
-      const user = result.user;
-      toast.success('Signed up successfully')
-      console.log(user);
-    });
+    try {
+      const result = await createUser(email, password);
+      toast.success("Registered successfully please login");
+      navigate('/')
+    } catch (error) {
+        console.log(error.Error);
+        toast.error("error occurred: ");
+    }
   };
   return (
     <div
@@ -60,7 +65,7 @@ const SignUp = () => {
                 label="Email"
                 placeholder="Type here"
                 required={true}
-                register={register("email",validationForm.email)}
+                register={register("email", validationForm.email)}
                 error={errors.email}
               />
             </div>
@@ -70,12 +75,19 @@ const SignUp = () => {
                 placeholder="Enter your password"
                 required={true}
                 type="password"
-                register={register("password",validationForm.password)}
+                register={register("password", validationForm.password)}
                 error={errors.password}
               />
             </div>
             <div className="form-control mt-6">
-              <button className="btn bg-[#D1A054] text-white">Sign Up</button>
+              {" "}
+              {isSubmitting ? (
+                <button disabled className="btn bg-[#D1A054] text-white">
+                  <span className="loading loading-ring loading-md text-[#D1A054]"></span>
+                </button>
+              ) : (
+                <button className="btn bg-[#D1A054] text-white">Sign Up</button>
+              )}
             </div>
           </form>
           <div className="text-center">

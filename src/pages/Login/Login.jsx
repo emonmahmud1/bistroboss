@@ -9,10 +9,13 @@ import {
 } from "react-simple-captcha";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../../contextProvider/AuthProvider";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { validationForm } from "../../utilities/validation";
 import toast from "react-hot-toast";
+
 const Login = () => {
+  let navigate = useNavigate();
+  let location = useLocation();
   const [disable, setDisable] = useState(true);
   const captchaRef = useRef(null);
 
@@ -23,18 +26,20 @@ const Login = () => {
     reset,
     setError,
     clearErrors,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm();
-  const onSubmit = (data) => {
+  let from = location.state?.from?.pathname || "/";
+  const onSubmit = async (data) => {
     const email = data.email;
     const password = data.password;
-    console.log(email, password);
 
-    login(email, password).then((result) => {
-      toast.success('login success')
-      
-      console.log(result);
-    });
+    try {
+      const result = await login(email, password);
+      navigate(from, { replace: true });
+      toast.success("Login success");
+    } catch (error) {
+      toast.error("Login failed. Please try again.");
+    }
   };
 
   useEffect(() => {
@@ -107,12 +112,18 @@ const Login = () => {
               </div>
             </div>
             <div className="form-control mt-6">
-              <button
-                disabled={disable}
-                className="btn bg-[#D1A054] text-white"
-              >
-                Sign In
-              </button>
+              {isSubmitting ? (
+                <button disabled className="btn bg-[#D1A054] text-white">
+                  <span className="loading loading-ring loading-md text-[#D1A054]"></span>
+                </button>
+              ) : (
+                <button
+                  disabled={disable}
+                  className="btn bg-[#D1A054] text-white"
+                >
+                  Sign In
+                </button>
+              )}
             </div>
           </form>
           <div className="text-center">
